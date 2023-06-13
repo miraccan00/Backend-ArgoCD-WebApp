@@ -1,0 +1,34 @@
+# argocd-values.yaml
+# Customize the values as per your requirements
+
+# Enable the creation of a LoadBalancer service
+server:
+  service:
+    type: NodePort
+    nodePorts:
+      https: 32080
+
+# Set the initial password for the admin user
+adminPassword: admin
+
+# Set the desired ingress configuration (optional)
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  hosts:
+    - host: miraccanyilmaz.com
+      paths:
+        - /
+  tls:
+    - secretName: argocd-tls
+      hosts:
+        - miraccanyilmaz.com
+
+# Enable RBAC (Role-Based Access Control)
+rbac:
+  create: true
+
+# Enable self-signed TLS certificate generation (for development)
+# tls:
+#   enabled: true
