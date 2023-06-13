@@ -5,7 +5,7 @@ def install_project():
 
 def continues_integration():
     servicename = "microservicename"
-    tag = "1.0.1"
+    tag = "1.0.2"
     subprocess.run(['sh', 'continues_integration.sh', servicename, tag])
 
 
