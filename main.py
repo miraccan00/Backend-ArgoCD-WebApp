@@ -1,7 +1,7 @@
 import subprocess
 
 def install_project():
-    subprocess.run(['sh', 'install.sh'])
+    subprocess.run(['sh', 'start.sh'])
 
 def continues_integration():
     servicename = "microservicename"
