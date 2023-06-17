@@ -43,6 +43,3 @@ def get_version_input():
             print("Invalid input. Please try again.")
     
     return option
-
-if __name__ == "__main__":
-    main()
