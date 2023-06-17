@@ -12,9 +12,9 @@ def main():
         print("1. Continues integration")
         option = input("Select option: ")
         if option == "1":
-            if continues_integration("microservicename", "1.0.0"):
+            if continues_integration("microservicename", "1.0.1"):
                 values_file_path = "deploymentchart/values.yaml"
-                new_image_tag = "1.0.0"
+                new_image_tag = "1.0.1"
                 if update_helm_chart_image_tag(values_file_path, new_image_tag):
                     commit()
                     subprocess.run(['sh', 'argocontinuesdeployment.sh'])
