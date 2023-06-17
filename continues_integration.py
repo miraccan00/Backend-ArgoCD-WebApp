@@ -1,8 +1,9 @@
 import subprocess
+import os
 def continues_integration(servicename,tag):
 
     # Build Docker image
-    subprocess.run(["docker", "build", "-t", f"{servicename}:{tag}", "."])
+    subprocess.run(["docker", "build", "-t", f"{servicename}:{tag}", "./djangostart/"])
 
     print(f"Docker {servicename}:{tag} image build is completed")
 

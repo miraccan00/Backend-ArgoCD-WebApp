@@ -1,5 +1,5 @@
 import subprocess
-from djangostart.continues_integration import continues_integration
+from continues_integration import continues_integration
 from updatehelmchart import update_helm_chart_image_tag
 from gitcommit import commit
 import time
