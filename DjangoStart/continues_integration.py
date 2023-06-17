@@ -15,3 +15,4 @@ def continues_integration(servicename,tag):
     subprocess.run(["docker", "push", f"{dockerusername}/{servicename}:{tag}"])
 
     print(f"Docker {servicename}:{tag} image push is completed")
+    return True
