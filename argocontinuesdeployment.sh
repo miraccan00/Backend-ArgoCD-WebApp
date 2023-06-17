@@ -18,7 +18,7 @@ argocd login "$ARGOCD_SERVER" --username "$ARGOCD_USERNAME" --password "$ARGOCD_
 
 # Create or sync the application
 echo "Creating or syncing the application..."
-argocd app create djangoargo --repo $APPLICATION_REPO --path djangoapp --dest-server https://kubernetes.default.svc --dest-namespace default --revision $APPLICATION_TARGET_REVISION --sync-policy automated
+argocd app create djangoargo --repo $APPLICATION_REPO --path deploymentchart --dest-server https://kubernetes.default.svc --dest-namespace default --revision $APPLICATION_TARGET_REVISION --sync-policy automated
 
 
 # Wait for the application to sync
