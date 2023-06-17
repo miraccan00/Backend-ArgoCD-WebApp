@@ -4,7 +4,8 @@
 # Enable the creation of a LoadBalancer service
 server:
   service:
-    type: NodePort
+    type: ClusterIP
+    port: 80
     nodePorts:
       https: 32080
 
