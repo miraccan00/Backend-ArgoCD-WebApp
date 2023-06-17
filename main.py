@@ -13,7 +13,7 @@ def main():
         option = input("Select option: ")
         if option == "1":
             version = input("Give Me Version: ")
-            if continues_integration("customer", version):
+            if continues_integration("microservicename", version):
                 values_file_path = "deploymentchart/values.yaml"
                 new_image_tag = version
                 if update_helm_chart_image_tag(values_file_path, new_image_tag):
