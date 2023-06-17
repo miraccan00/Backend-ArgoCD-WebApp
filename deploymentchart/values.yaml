@@ -13,7 +13,7 @@ fullnameOverride: ''
 image:
   pullPolicy: IfNotPresent
   repository: miraccan/microservicename
-  tag: 1.0.4
+  tag: 1.0.5
 imagePullSecrets: []
 ingress:
   annotations:
