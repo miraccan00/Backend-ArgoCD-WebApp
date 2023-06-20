@@ -12,7 +12,7 @@ def main():
         print("1. Continues integration")
         option = input("Select option: ")
         if option == "1":
-            version = "1.0.3"
+            version = "1.0.4"
             if continues_integration("microservicename", version):
                 values_file_path = "deploymentchart/values.yaml"
                 new_image_tag = version
