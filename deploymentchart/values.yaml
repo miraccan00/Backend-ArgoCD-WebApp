@@ -22,7 +22,7 @@ ingress:
   className: nginx
   enabled: false
   hosts:
-  - host: miraccanyilmaz.com
+  - host: miraccanyilmaz.localhost
     paths:
     - path: /
       pathType: ImplementationSpecific
