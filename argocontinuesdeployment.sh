@@ -3,7 +3,7 @@
 # Argo CD server details
 ARGOCD_SERVER="localhost:8080"
 ARGOCD_USERNAME="admin"
-ARGOCD_PASSWORD="QCNn2YLFEXBBmCj8"
+ARGOCD_PASSWORD="iVZr97KXCr5ba2bq"
 
 # Application details
 APPLICATION_NAME="djangoargo"
