@@ -17,5 +17,7 @@ COPY . /code/
 # Expose the Django app port (optional)
 EXPOSE 8000
 
+VOLUME .:/code
+
 # Start Unicorn server
 CMD ["gunicorn", "core.wsgi:application","--bind", "0.0.0.0:8000"]
