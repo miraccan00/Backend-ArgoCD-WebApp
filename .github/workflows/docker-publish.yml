@@ -26,5 +26,5 @@ jobs:
     
     - name: Build and Push Docker Image
       run: |
-        docker build -t ${{ env.DOCKERHUB_USERNAME }}/${{ SERVICE_NAME }}:${{ VERSION }} ./${{ SERVICE_NAME }}
-        docker push ${{ env.DOCKERHUB_USERNAME }}/${{ SERVICE_NAME }}:${{ VERSION }}
+        docker build -t ${{ env.DOCKERHUB_USERNAME }}/${{ env.SERVICE_NAME }}:${{ env.VERSION }} ./${{ env.SERVICE_NAME }}
+        docker push ${{ env.DOCKERHUB_USERNAME }}/${{ env.SERVICE_NAME }}:${{ env.VERSION }}
