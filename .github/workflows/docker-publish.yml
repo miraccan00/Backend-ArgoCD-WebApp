@@ -23,15 +23,14 @@ jobs:
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
     - name: Read version and appName from applicationmanifest.yaml
-      id: read_manifest
-      uses: einaregilsson/parse-yaml@v1
-      with:
-        file: "applicationmanifest.yaml"
+      run: |
+        version=$(cat applicationmanifest.yaml | grep "version:" | awk '{print $2}')
+        appName=$(cat applicationmanifest.yaml | grep "appName:" | awk '{print $2}')
+        
+        echo "Version: $version"
+        echo "App Name: $appName"
     
     - name: Build and Push Docker Image
       run: |
-        version=${{ steps.read_manifest.outputs.version }}
-        appName=${{ steps.read_manifest.outputs.appName }}
-        
-        docker build -t ${{ env.DOCKERHUB_USERNAME }}/${{ appName }}:${{ version }} ./${{ appName }}
-        docker push ${{ env.DOCKERHUB_USERNAME }}/${{ appName }}:${{ version }}
+        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ appName }}:${{ version }} ./${{ appName }}
+        docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ appName }}:${{ version }}
