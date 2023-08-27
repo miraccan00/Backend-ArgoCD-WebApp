@@ -3,14 +3,13 @@ name: Publish Docker Image to Docker Hub
 on:
   push:
     branches:
-      - main  # Change this to your main branch name
+      - master  # Change this to your main branch name
 
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
 
     env:
-      SERVICE_NAME: 'servicename'
       DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
     
     steps:
@@ -23,13 +22,16 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
-    - name: Read version from applicationmanifest.yaml
-      id: read_version
+    - name: Read version and appName from applicationmanifest.yaml
+      id: read_manifest
       uses: einaregilsson/parse-yaml@v1
       with:
         file: "applicationmanifest.yaml"
     
     - name: Build and Push Docker Image
       run: |
-        docker build -t ${{ env.DOCKERHUB_USERNAME }}/${{ env.SERVICE_NAME }}:${{ steps.read_version.outputs.version }} ./${{ env.SERVICE_NAME }}
-        docker push ${{ env.DOCKERHUB_USERNAME }}/${{ env.SERVICE_NAME }}:${{ steps.read_version.outputs.version }}
+        version=${{ steps.read_manifest.outputs.version }}
+        appName=${{ steps.read_manifest.outputs.appName }}
+        
+        docker build -t ${{ env.DOCKERHUB_USERNAME }}/${{ appName }}:${{ version }} ./${{ appName }}
+        docker push ${{ env.DOCKERHUB_USERNAME }}/${{ appName }}:${{ version }}
