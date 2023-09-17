@@ -12,7 +12,7 @@ db:
 fullnameOverride: ''
 image:
   pullPolicy: IfNotPresent
-  repository: $image_name
+  repository: miraccan/servicename
   tag: $tag
 imagePullSecrets: []
 ingress:

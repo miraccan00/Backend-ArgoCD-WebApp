@@ -45,17 +45,30 @@ pipeline {
         
 
         stage('Deploy') {
-             steps {
+            steps {
                 script {
                     sh 'pwd'
                     sh 'ls -lrth'
-                }
-                
-                // Use the withCredentials block to access your kubeconfig secret
-                withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG_PATH')]) {
-                    // Set the KUBECONFIG environment variable for these commands
-                    sh 'export KUBECONFIG=$KUBECONFIG_PATH; helm version'
-                    sh 'export KUBECONFIG=$KUBECONFIG_PATH; helm list'
+
+                    // Replace the $tag in values.yaml with the Jenkins build number
+                    sh "sed -i 's/\$tag/${env.BUILD_NUMBER}/g' helmchart/values.yaml"
+                    
+                    // Optionally print out values.yaml for debugging
+                    sh 'cat helmchart/values.yaml'
+                    
+                    // Use the withCredentials block to access your kubeconfig secret
+                    withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG_PATH')]) {
+                        // Set the KUBECONFIG environment variable for these commands
+                        env.KUBECONFIG = "$KUBECONFIG_PATH"
+
+                        // Deploy (or upgrade) your Helm release
+                        sh "helm upgrade --install servicename helmchart/ --namespace default"
+
+                        // Checking helm version and list are kept for debugging
+                        sh 'helm version'
+                        sh 'helm list'
+                        sh 'echo Deployed!'
+                    }
                 }
             }
         }
