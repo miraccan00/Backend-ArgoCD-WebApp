@@ -6,7 +6,7 @@ metadata:
     kubernetes.io/ingress.class: nginx
 spec:
   rules:
-    - host: miraccanyilmaz.localhost
+    - host: 10.10.1.10
       http:
         paths:
           - path: /
