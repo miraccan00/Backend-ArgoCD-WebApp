@@ -27,7 +27,7 @@ pipeline {
                 }
                 
                 // Use the withCredentials block to access your kubeconfig secret
-                withCredentials([file(credentialsId: 'YOUR_JENKINS_SECRET_ID', variable: 'KUBECONFIG_PATH')]) {
+                withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG_PATH')]) {
                     sh 'cp $KUBECONFIG_PATH $KUBECONFIG' // copy secret kubeconfig to workspace
                     sh 'kubectl get pods'
                 }
