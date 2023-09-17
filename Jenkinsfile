@@ -18,15 +18,9 @@ pipeline {
         stage('Build in Docker') {
             steps {
                 script {
-                    sh 'pwd'
-                    sh 'ls -lrth'
-                }
-                
-                // Use the withCredentials block to access your kubeconfig secret
-                withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG_PATH')]) {
-                    // Set the KUBECONFIG environment variable for these commands
-                    sh 'export KUBECONFIG=$KUBECONFIG_PATH; helm version'
-                    sh 'export KUBECONFIG=$KUBECONFIG_PATH; helm list'
+                    // Build the Docker image from the Dockerfile in the 'servicename' directory
+                    sh "service_name will build ..."
+                    def appImage = docker.build("service_name:${env.BUILD_NUMBER}", "./servicename")
                 }
             }
         }
@@ -40,9 +34,18 @@ pipeline {
         }
 
         stage('Deploy') {
-            steps {
-                echo 'Deploying...'
-                // your deployment steps
+             steps {
+                script {
+                    sh 'pwd'
+                    sh 'ls -lrth'
+                }
+                
+                // Use the withCredentials block to access your kubeconfig secret
+                withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG_PATH')]) {
+                    // Set the KUBECONFIG environment variable for these commands
+                    sh 'export KUBECONFIG=$KUBECONFIG_PATH; helm version'
+                    sh 'export KUBECONFIG=$KUBECONFIG_PATH; helm list'
+                }
             }
         }
     }
