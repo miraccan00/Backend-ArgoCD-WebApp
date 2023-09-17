@@ -1,10 +1,13 @@
 pipeline {
     agent any 
 
+    environment {
+        KUBECONFIG = "${WORKSPACE}/kubeconfig" // set KUBECONFIG env var to point to our workspace
+    }
+
     stages {
         stage('Checkout') {
             steps {
-                // This will checkout the repository from the provided GitHub URL
                 checkout([
                     $class: 'GitSCM', 
                     branches: [[name: '*/jenkinstest']], 
@@ -21,19 +24,20 @@ pipeline {
                 script {
                     sh 'pwd'
                     sh 'ls -lrth'
-                    sh 'echo get pods without sudo'
+                }
+                
+                // Use the withCredentials block to access your kubeconfig secret
+                withCredentials([file(credentialsId: 'YOUR_JENKINS_SECRET_ID', variable: 'KUBECONFIG_PATH')]) {
+                    sh 'cp $KUBECONFIG_PATH $KUBECONFIG' // copy secret kubeconfig to workspace
                     sh 'kubectl get pods'
-                    sh 'echo get pods with sudo'
-                    sh 'sudo kubectl get pods'
-
                 }
             }
         }
+
         stage('push to dockerhub') {
             steps {
                 script {
                     echo 'pushing...'
-                    
                 }
             }
         }
