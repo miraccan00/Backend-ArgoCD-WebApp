@@ -7,7 +7,7 @@ pipeline {
                 // This will checkout the repository from the provided GitHub URL
                 checkout([
                     $class: 'GitSCM', 
-                    branches: [[name: '*/main']], 
+                    branches: [[name: '*/jenkinstest']], 
                     doGenerateSubmoduleConfigurations: false, 
                     extensions: [], 
                     submoduleCfg: [], 
