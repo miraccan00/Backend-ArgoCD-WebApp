@@ -24,6 +24,7 @@ pipeline {
                     sh "echo servicename will build ..."
                     def appImage = docker.build("servicename:${env.BUILD_NUMBER}", "./servicename")
                     sh 'echo servicename build done'
+                    sh 'docker images'
                 }
             }
         }
