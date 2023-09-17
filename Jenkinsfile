@@ -25,8 +25,8 @@ pipeline {
                 // Use the withCredentials block to access your kubeconfig secret
                 withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG_PATH')]) {
                     // Set the KUBECONFIG environment variable for these commands
-                    sh 'export KUBECONFIG=$KUBECONFIG_PATH; sudo helm version'
-                    sh 'export KUBECONFIG=$KUBECONFIG_PATH; sudo helm list'
+                    sh 'export KUBECONFIG=$KUBECONFIG_PATH; helm version'
+                    sh 'export KUBECONFIG=$KUBECONFIG_PATH; helm list'
                 }
             }
         }
