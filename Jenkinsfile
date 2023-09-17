@@ -19,9 +19,8 @@ pipeline {
         stage('Build in Docker') {
             steps {
                 script {
-                    sh 'cd servicename'
-                    sh 'docker build -t servicename .'
-                    
+                    sh 'pwd'
+                    sh 'ls -lrth'
                 }
             }
         }
