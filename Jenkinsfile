@@ -60,7 +60,7 @@ pipeline {
                     withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG_PATH')]) {
                         // Set the KUBECONFIG environment variable for these commands
                         env.KUBECONFIG = "$KUBECONFIG_PATH"
-
+                        sh 'helm list'
                         // Deploy (or upgrade) your Helm release
                         sh "helm upgrade --install servicename helmchart/ --namespace default"
 
