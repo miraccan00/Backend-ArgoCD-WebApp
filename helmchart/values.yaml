@@ -15,17 +15,17 @@ image:
   repository: miraccan/servicename
   tag: $tag
 imagePullSecrets: []
-ingress:
-  annotations:
-    kubernetes.io/ingress.class: nginx
-    kubernetes.io/tls-acme: 'true'
-  className: nginx
-  enabled: false
-  hosts:
-  - host: miraccanyilmaz.localhost
-    paths:
-    - path: /
-      pathType: ImplementationSpecific
+# ingress:
+#   annotations:
+#     kubernetes.io/ingress.class: nginx
+#     kubernetes.io/tls-acme: 'true'
+#   className: nginx
+#   enabled: false
+#   hosts:
+#   - host: miraccanyilmaz.localhost
+#     paths:
+#     - path: /
+#       pathType: ImplementationSpecific
 nameOverride: ''
 nodeSelector: {}
 podAnnotations: {}
@@ -36,7 +36,7 @@ securityContext: {}
 service:
   port: 80
   targetPort: 8000
-  type: ClusterIP
+  type: LoadBalancer
 serviceAccount:
   annotations: {}
   create: true
