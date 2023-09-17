@@ -30,6 +30,10 @@ pipeline {
                 withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG_PATH')]) {
                     sh 'cp $KUBECONFIG_PATH $KUBECONFIG' // copy secret kubeconfig to workspace
                     sh 'kubectl get pods'
+                    sh 'kubectl get pods -A'
+                    sh 'kubectl get nodes'
+                    sh 'helm version'
+                    sh 'helm list'
                 }
             }
         }
