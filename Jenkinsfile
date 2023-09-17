@@ -18,9 +18,11 @@ pipeline {
         stage('Build in Docker') {
             steps {
                 script {
+                    sh 'pwd'
+                    sh 'ls -la'
                     // Build the Docker image from the Dockerfile in the 'servicename' directory
                     sh "service_name will build ..."
-                    def appImage = docker.build("service_name:${env.BUILD_NUMBER}", "./servicename")
+                    def appImage = docker.build("servicename:${env.BUILD_NUMBER}", "./servicename")
                 }
             }
         }
