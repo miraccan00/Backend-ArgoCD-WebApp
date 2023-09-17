@@ -16,3 +16,21 @@ spec:
                 name: djangoapp-service
                 port:
                   number: {{ .Values.service.port }}
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: djangoapp-service
+            port:
+              number: {{ .Values.service.port }}
