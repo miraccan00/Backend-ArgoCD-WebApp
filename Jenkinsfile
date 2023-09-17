@@ -29,21 +29,21 @@ pipeline {
         }
 
         
-        stages {
-            stage('push to dockerhub') {
-                steps {
-                    script {
-                        // Define the Docker image with tag
-                        def appImage = docker.image("miraccan/servicename:${env.BUILD_NUMBER}")
+        
+        stage('push to dockerhub') {
+            steps {
+                script {
+                    // Define the Docker image with tag
+                    def appImage = docker.image("miraccan/servicename:${env.BUILD_NUMBER}")
 
-                        // Log in to DockerHub and push the image
-                        withDockerRegistry([credentialsId: 'dockerhub_credentials', url: 'https://index.docker.io/v1/']) {
-                            appImage.push()
-                        }
+                    // Log in to DockerHub and push the image
+                    withDockerRegistry([credentialsId: 'dockerhub_credentials', url: 'https://index.docker.io/v1/']) {
+                        appImage.push()
                     }
                 }
             }
         }
+        
 
         stage('Deploy') {
              steps {
