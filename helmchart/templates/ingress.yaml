@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: my-django-ingress
   annotations:
-    kubernetes.io/ingress.class: nginx
+    kubernetes.io/ingress.class: nginx-ingress
 spec:
   rules:
     - host: miraccanyilmaz.localhost
