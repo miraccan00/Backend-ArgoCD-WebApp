@@ -1,10 +1,6 @@
 pipeline {
     agent any 
 
-    environment {
-        KUBECONFIG = "${WORKSPACE}/kubeconfig" // set KUBECONFIG env var to point to our workspace
-    }
-
     stages {
         stage('Checkout') {
             steps {
@@ -28,9 +24,9 @@ pipeline {
                 
                 // Use the withCredentials block to access your kubeconfig secret
                 withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG_PATH')]) {
-                    sh 'cp $KUBECONFIG_PATH $KUBECONFIG' // copy secret kubeconfig to workspace
-                    sh 'helm version'
-                    sh 'helm list'
+                    // Set the KUBECONFIG environment variable for these commands
+                    sh 'export KUBECONFIG=$KUBECONFIG_PATH; helm version'
+                    sh 'export KUBECONFIG=$KUBECONFIG_PATH; helm list'
                 }
             }
         }
