@@ -19,7 +19,8 @@ pipeline {
         stage('Build in Docker') {
             steps {
                 script {
-                    echo 'Building...'
+                    cd servicename
+                    sh 'docker build -t servicename .'
                     
                 }
             }
