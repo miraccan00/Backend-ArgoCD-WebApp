@@ -20,21 +20,19 @@ pipeline {
                 script {
                     sh 'pwd'
                     sh 'ls -la'
-                    // Build the Docker image from the Dockerfile in the 'servicename' directory
+                    // Build the Docker image with the Docker Hub name format
                     sh "echo servicename will build ..."
-                    def appImage = docker.build("servicename:${env.BUILD_NUMBER}", "./servicename")
+                    def appImage = docker.build("miraccan/servicename:${env.BUILD_NUMBER}", "./servicename")
                     sh 'echo servicename build done'
                     sh 'docker images'
                 }
             }
         }
 
-        
-        
         stage('push to dockerhub') {
             steps {
                 script {
-                    // Define the Docker image with tag
+                    // Define the Docker image with the Docker Hub name format
                     def appImage = docker.image("miraccan/servicename:${env.BUILD_NUMBER}")
 
                     // Log in to DockerHub and push the image
