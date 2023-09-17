@@ -21,6 +21,11 @@ pipeline {
                 script {
                     sh 'pwd'
                     sh 'ls -lrth'
+                    sh 'echo get pods without sudo'
+                    sh 'kubectl get pods'
+                    sh 'echo get pods with sudo'
+                    sh 'sudo kubectl get pods'
+
                 }
             }
         }
