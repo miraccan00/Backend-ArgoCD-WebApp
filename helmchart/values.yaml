@@ -14,7 +14,7 @@ fullnameOverride: ''
 image:
   pullPolicy: IfNotPresent
   repository: miraccan/servicename
-  tag: $tag
+  tag: 40
 imagePullSecrets: []
 # ingress:
 #   annotations:
