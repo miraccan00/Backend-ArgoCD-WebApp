@@ -48,17 +48,17 @@ pipeline {
             steps {
                 script {
                     // List existing Helm releases
-                    sh 'helm list'
+                    sh 'sudo helm list'
 
                     // Modify the values.yaml file to set the image tag
-                    sh "sed -i 's/\\(image:\\s*tag:\\s*\\).*/\\1${env.BUILD_NUMBER}/' helmchart/myvalues.yaml"
+                    sh "sudo sed -i 's/\\(image:\\s*tag:\\s*\\).*/\\1${env.BUILD_NUMBER}/' helmchart/myvalues.yaml"
 
                     // Deploy (or upgrade) your Helm release
-                    sh "helm upgrade --install servicename helmchart/ --namespace default -f helmchart/myvalues.yaml"
+                    sh "sudo helm upgrade --install servicename helmchart/ --namespace default -f helmchart/myvalues.yaml"
 
                     // List Helm releases and version for debugging
-                    sh 'helm version'
-                    sh 'helm list'
+                    sh 'sudohelm version'
+                    sh 'sudo helm list'
 
                     echo 'Deployed!'
                 }
