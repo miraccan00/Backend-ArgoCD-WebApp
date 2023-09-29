@@ -20,6 +20,6 @@ spec:
               name: gunicorn
         envFrom:
           - secretRef:
-              name: polls-secret
+              name: db-secrets
           - configMapRef:
-              name: polls-config
+              name: db-config
