@@ -32,7 +32,9 @@ securityContext: {}
 service:
   port: 80
   targetPort: 8000
-  type: LoadBalancer
+  NodePort: 30080
+  type: NodePort
+
 serviceAccount:
   annotations: {}
   create: true
