@@ -1,9 +1,9 @@
 replicaCount: 1
 
 image:
-  repository: mydjangoimage
-  tag: latest
+  repository: miraccan/servicename
   pullPolicy: IfNotPresent
+  tag: 40
 
 service:
   type: NodePort
