@@ -6,7 +6,7 @@ data:
   DJANGO_ALLOWED_HOSTS: "*"
   DJANGO_LOGLEVEL: "info"
   DEBUG: "True"
-  DATABASE_ENGINE: "postgresql_psycopg2"
+  DATABASE_ENGINE: "django.db.backends.postgresql"
   DBNAME: 'test'
   DBHOST: 'postgresql'
   DBPORT: '5432'
