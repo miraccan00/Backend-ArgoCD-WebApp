@@ -1,25 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-django-app
+  name: {{ .Release.Name }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: django
+      app: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: django
+        app: {{ .Release.Name }}
     spec:
       containers:
-      - name: django
-        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
-        ports:
+        - name: django
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports:
             - containerPort: 8000
-              name: gunicorn
-        envFrom:
-          - secretRef:
-              name: db-secrets
-          - configMapRef:
-              name: db-config
+          envFrom:
+            - configMapRef:
+                name: db-config
+            - secretRef:
+                name: db-secrets
