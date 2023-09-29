@@ -1,6 +1,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "djangoapp.name" . }}-configmap
+  name: db-config
 data:
-  hello.message: "Hello from configmap"
+  db-name: 'test'
+  db-host: 'postgresql'
+  db-port: '5432'
+  db-engine: 'django.db.backends.postgresql'

@@ -1,36 +1,48 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "djangoapp.name" . }}-deployment
+  name: my-django-app
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: 1
   selector:
     matchLabels:
-      app: {{ include "djangoapp.name" . }}
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 1
+      app: django
   template:
     metadata:
       labels:
-        app: {{ include "djangoapp.name" . }}
+        app: django
     spec:
       containers:
-        - name: {{ .Chart.Name }}
-          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
-          ports:
-            - containerPort: {{ .Values.service.port }}
-          envFrom:
-          - configMapRef:
-              name: {{ include "djangoapp.name" . }}-configmap
-          - secretRef:
-              name: {{ include "djangoapp.name" . }}-secret
-          resources:
-            requests:
-              memory: "512Mi" 
-              cpu: "250m"
-            limits:
-              memory: "1024Mi"
-              cpu: "500m"
+      - name: django
+        image: my-django-image
+        env:
+        - name: DB_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: db-config
+              key: db-name
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets
+              key: db-user
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets
+              key: db-password
+        - name: DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: db-config
+              key: db-host
+        - name: DB_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: db-config
+              key: db-port
+        - name: DB_ENGINE
+          valueFrom:
+            configMapKeyRef:
+              name: db-config
+              key: db-engine
