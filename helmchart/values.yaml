@@ -9,7 +9,7 @@ fullnameOverride: ''
 image:
   pullPolicy: IfNotPresent
   repository: miraccan/servicename
-  tag: 40
+  tag: 59
 imagePullSecrets: []
 # ingress:
 #   annotations:

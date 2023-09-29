@@ -50,8 +50,6 @@ pipeline {
                     // List existing Helm releases
                     sh 'helm list'
 
-                    // Modify the values.yaml file to set the image tag
-                    sh "sed -i 's/\\(image:\\s*tag:\\s*\\).*/\\1${env.BUILD_NUMBER}/' helmchart/myvalues.yaml"
 
                     // Deploy (or upgrade) your Helm release
                     sh "helm upgrade --install servicename helmchart/ --namespace default -f helmchart/myvalues.yaml"
