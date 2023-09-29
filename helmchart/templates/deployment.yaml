@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: django
-        image: my-django-image
+        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
         env:
         - name: DB_NAME
           valueFrom:
