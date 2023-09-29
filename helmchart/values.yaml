@@ -10,8 +10,6 @@ image:
   pullPolicy: IfNotPresent
   repository: miraccan/servicename
   tag: 40
-db:
-  name: TkFNRQ==
 imagePullSecrets: []
 # ingress:
 #   annotations:
