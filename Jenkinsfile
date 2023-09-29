@@ -62,8 +62,8 @@ pipeline {
                         env.KUBECONFIG = "$KUBECONFIG_PATH"
                         sh 'helm list'
                         // Deploy (or upgrade) your Helm release
+                        sh "sed -i 's/\$tag/${env.BUILD_NUMBER}/g' helmchart/values.yaml"
                         sh "helm upgrade --install servicename helmchart/ --namespace default"
-
                         // Checking helm version and list are kept for debugging
                         sh 'helm version'
                         sh 'helm list'

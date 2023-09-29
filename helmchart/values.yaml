@@ -5,11 +5,6 @@ autoscaling:
   maxReplicas: 100
   minReplicas: 1
   targetCPUUtilizationPercentage: 80
-db:
-  host: postgres
-  name: postgres
-  password: postgres
-  user: postgres
 fullnameOverride: ''
 image:
   pullPolicy: IfNotPresent
