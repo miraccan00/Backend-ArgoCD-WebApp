@@ -15,6 +15,9 @@ spec:
       containers:
       - name: django
         image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        ports:
+            - containerPort: 8000
+              name: gunicorn
         env:
         - name: DB_NAME
           valueFrom:

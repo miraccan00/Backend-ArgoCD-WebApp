@@ -3,7 +3,10 @@ kind: ConfigMap
 metadata:
   name: db-config
 data:
-  db-name: 'test'
-  db-host: 'postgresql'
-  db-port: '5432'
-  db-engine: 'django.db.backends.postgresql'
+  DJANGO_ALLOWED_HOSTS: "*"
+  DJANGO_LOGLEVEL: "info"
+  DEBUG: "True"
+  DATABASE_ENGINE: "postgresql_psycopg2"
+  DBNAME: 'test'
+  DBHOST: 'postgresql'
+  DBPORT: '5432'
