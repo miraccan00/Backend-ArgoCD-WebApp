@@ -44,33 +44,25 @@ pipeline {
         }
         
 
-        stage('Deploy') {
-            steps {
-                script {
-                    sh 'pwd'
-                    sh 'ls -lrth'
+        stage('Deploy Helm Chart') {
+    steps {
+        script {
+            // List existing Helm releases
+            sh 'helm list'
 
-                    // Replace the $tag in values.yaml with the Jenkins build number
-                    sh "sed -i 's/\$tag/${env.BUILD_NUMBER}/g' helmchart/values.yaml"
-                    
-                    // Optionally print out values.yaml for debugging
-                    sh 'cat helmchart/values.yaml'
-                    
-                    // Use the withCredentials block to access your kubeconfig secret
-                    withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG_PATH')]) {
-                        // Set the KUBECONFIG environment variable for these commands
-                        env.KUBECONFIG = "$KUBECONFIG_PATH"
-                        sh 'helm list'
-                        // Deploy (or upgrade) your Helm release
-                        sh "sed -i 's/\$tag/${env.BUILD_NUMBER}/g' helmchart/values.yaml"
-                        sh "helm upgrade --install servicename helmchart/ --namespace default"
-                        // Checking helm version and list are kept for debugging
-                        sh 'helm version'
-                        sh 'helm list'
-                        sh 'echo Deployed!'
-                    }
-                }
-            }
+            // Modify the values.yaml file to set the image tag
+            sh "sed -i 's/\\\$tag/${env.BUILD_NUMBER}/g' helmchart/values.yaml"
+
+            // Deploy (or upgrade) your Helm release
+            sh "helm upgrade --install servicename helmchart/ --namespace default"
+
+            // List Helm releases and version for debugging
+            sh 'helm version'
+            sh 'helm list'
+
+            echo 'Deployed!'
         }
+    }
+}
     }
 }
