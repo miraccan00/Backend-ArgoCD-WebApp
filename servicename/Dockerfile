@@ -17,12 +17,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the Django project code to the working directory
 COPY . /code/
 
-# Expose the Django app port (optional)
-EXPOSE 8000
-
-# You might want to reconsider the usage of VOLUME here, especially with the '.' as the source
-# If you want to share the /code directory with the host, it should be done with docker run -v command
-# VOLUME .:/code
-
 # Start Unicorn server
 CMD ["gunicorn", "core.wsgi:application", "--bind", "0.0.0.0:8000"]
