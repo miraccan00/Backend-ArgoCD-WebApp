@@ -1,3 +1,15 @@
 {% extends "base/base.html" %}
 {% block content %}
+
+<li>
+    {% for todo in todos %}
+    <p>{{ todo.name }}</p>
+    <p>{{ todo.description }}</p>
+    <p>{{ todo.created_at }}</p>
+    <p>{{ todo.updated_at }}</p>
+    <p>{{ todo.is_completed }}</p>
+    <p>{{ todo.is_deleted }}</p>
+    {% endfor %}
+</li>
+
 {% endblock content %}
