@@ -5,6 +5,11 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
   targetMemoryUtilizationPercentage: 80
 fullnameOverride: ''
+db:
+  name: dGVzdAo=
+  user: dGVzdAo=
+  password: dGVzdAo=
+  host: cG9zdGdyZXMK
 image:
   pullPolicy: IfNotPresent
   repository: miraccan/myargodjangotest
