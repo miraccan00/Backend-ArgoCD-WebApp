@@ -6,13 +6,13 @@ metadata:
     kubernetes.io/ingress.class: nginx
 spec:
   rules:
-    - host: $host
+    - host: miraccanyilmaz.localhost
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: djangoapp-service
+                name: {{ include "djangoapp.name" .}}-service
                 port:
                   number: {{ .Values.service.port }}
