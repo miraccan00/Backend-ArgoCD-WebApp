@@ -13,7 +13,7 @@ db:
 image:
   pullPolicy: IfNotPresent
   repository: miraccan/myargodjangotest
-  tag: 1.0.0
+  tag: 1.0.1
 nameOverride: ''
 replicaCount: 1
 service:
