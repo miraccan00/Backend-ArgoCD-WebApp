@@ -7,19 +7,13 @@ on:
 
 jobs:
   build-and-publish:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     env:
       DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
       SERVICE_NAME: 'servicename'
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
-    - name: Install Argo CD CLI
-      run: |
-        curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
-        chmod +x /usr/local/bin/argocd
-    - name: Verify Argo CD CLI installation
-      run: argocd version
     - name: Install yq
       run: |
         sudo add-apt-repository ppa:rmescandon/yq -y
