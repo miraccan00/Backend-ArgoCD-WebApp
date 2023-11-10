@@ -7,13 +7,19 @@ on:
 
 jobs:
   build-and-publish:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     env:
       DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
       SERVICE_NAME: 'servicename'
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
+    - name: Install Argo CD CLI
+      run: |
+        sudo curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+        sudo chmod +x /usr/local/bin/argocd
+    - name: Verify Argo CD CLI installation
+      run: argocd version
     - name: Install yq
       run: |
         sudo add-apt-repository ppa:rmescandon/yq -y
@@ -32,7 +38,7 @@ jobs:
         password: ${{ secrets.DOCKERHUB_PASSWORD }} 
     - name: Build and Push Docker Image
       run: |
-        docker build -t ${{ env.DOCKERHUB_USERNAME }}/${{ env.SERVICE_NAME }}:${{ steps.get_version.outputs.version }} ./helmchart
+        docker build -t ${{ env.DOCKERHUB_USERNAME }}/${{ env.SERVICE_NAME }}:${{ steps.get_version.outputs.version }} ./${{ env.SERVICE_NAME }}
         docker push ${{ env.DOCKERHUB_USERNAME }}/${{ env.SERVICE_NAME }}:${{ steps.get_version.outputs.version }}
     # - name: Commit and Push Changes
     #   run: argocd app set djangoargo -p image.tag=${{ steps.get_version.outputs.version }}
