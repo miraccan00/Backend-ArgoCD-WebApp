@@ -53,7 +53,7 @@ pipeline {
                     sh 'cat helmchart/values.yaml'
                     
                     // Use the withCredentials block to access your kubeconfig secret
-                    withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG_PATH')]) {
+                    withCredentials([file(credentialsId: 'kubeconf-dev', variable: 'KUBECONFIG_PATH')]) {
                         // Set the KUBECONFIG environment variable for these commands
                         env.KUBECONFIG = "$KUBECONFIG_PATH"
                         sh 'helm list'
