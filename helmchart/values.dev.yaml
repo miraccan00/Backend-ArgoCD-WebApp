@@ -20,4 +20,4 @@ service:
   type: NodePort
   port: 8000
   targetPort: 8000
-  nodePort: 32002
+  nodePort: 30081
