@@ -4,22 +4,18 @@ autoscaling:
   minReplicas: 1
   targetCPUUtilizationPercentage: 80
   targetMemoryUtilizationPercentage: 80
-
 fullnameOverride: 'mybackendapp'
 db:
   name: dGVzdAo=
   user: dGVzdAo=
   password: dGVzdAo=
   host: cG9zdGdyZXMK
-
 image:
   pullPolicy: IfNotPresent
   repository: miraccan/servicename
   tag: 1.0.7
-
 nameOverride: 'mybackendapp'
 replicaCount: 1
-
 service:
   type: ClusterIP
   port: 8000
@@ -28,8 +24,10 @@ service:
 ingress:
   enabled: true
   className: nginx
-  host: djangoapp.example.com
-  path: /
-  pathType: Prefix
-  tlsEnabled: true
-  secretName: my-tls-secret
+  annotations: {}
+  hosts:
+    - host: djangoapp.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
