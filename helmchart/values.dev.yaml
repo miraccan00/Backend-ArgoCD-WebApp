@@ -4,7 +4,7 @@ autoscaling:
   minReplicas: 1
   targetCPUUtilizationPercentage: 80
   targetMemoryUtilizationPercentage: 80
-fullnameOverride: ''
+fullnameOverride: 'mybackendapp'
 db:
   name: dGVzdAo=
   user: dGVzdAo=
@@ -14,7 +14,7 @@ image:
   pullPolicy: IfNotPresent
   repository: miraccan/servicename
   tag: 1.0.7
-nameOverride: ''
+nameOverride: 'mybackendapp'
 replicaCount: 1
 service:
   type: ClusterIP
