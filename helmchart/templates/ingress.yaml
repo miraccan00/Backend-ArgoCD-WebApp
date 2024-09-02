@@ -23,7 +23,7 @@ spec:
             pathType: {{ .pathType }}
             backend:
               service:
-                name: {{ include "djangoapp.name" . | quote }}
+                name: {{ include "djangoapp.name" .}}-service
                 port:
                   number: {{ $.Values.service.port }}
           {{- end }}
