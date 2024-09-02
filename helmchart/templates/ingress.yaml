@@ -1,33 +1,25 @@
-autoscaling:
-  enabled: true
-  maxReplicas: 10
-  minReplicas: 1
-  targetCPUUtilizationPercentage: 80
-  targetMemoryUtilizationPercentage: 80
-fullnameOverride: 'mybackendapp'
-db:
-  name: dGVzdAo=
-  user: dGVzdAo=
-  password: dGVzdAo=
-  host: cG9zdGdyZXMK
-image:
-  pullPolicy: IfNotPresent
-  repository: miraccan/servicename
-  tag: 1.0.7
-nameOverride: 'mybackendapp'
-replicaCount: 1
-service:
-  type: ClusterIP
-  port: 8000
-  targetPort: 8000
-
-ingress:
-  enabled: true
-  className: nginx
-  annotations: {}
-  hosts:
-    - host: djangoapp.example.com
-      paths:
-        - path: /
-          pathType: Prefix
-  tls: []
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "djangoapp.fullname" . }}
+  labels:
+    {{- include "djangoapp.labels" . | nindent 4 }}
+spec:
+  ingressClassName: {{ .Values.ingress.className }}
+  rules:
+    - host: {{ .Values.ingress.host }}
+      http:
+        paths:
+          - path: {{ .Values.ingress.path }}
+            pathType: {{ .Values.ingress.pathType }}
+            backend:
+              service:
+                name: {{ include "djangoapp.fullname" . }}
+                port:
+                  number: {{ .Values.service.port }}
+  {{- if .Values.ingress.tlsEnabled }}
+  tls:
+    - hosts:
+        - {{ .Values.ingress.host }}
+      secretName: {{ .Values.ingress.secretName }}
+  {{- end }}
