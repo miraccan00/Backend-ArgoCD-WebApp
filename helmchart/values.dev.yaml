@@ -17,7 +17,17 @@ image:
 nameOverride: ''
 replicaCount: 1
 service:
-  type: NodePort
+  type: ClusterIP
   port: 8000
   targetPort: 8000
-  nodePort: 30081
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations: {}
+  hosts:
+    - host: djangoapp.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
