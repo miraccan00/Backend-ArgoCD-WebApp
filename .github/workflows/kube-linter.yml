@@ -22,12 +22,18 @@ jobs:
         run: |
           curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
-      # 3. Helm Templates Render Et
+      # 3. KubeLinter'ı Kur
+      - name: Install KubeLinter
+        run: |
+          curl -sSL https://github.com/stackrox/kube-linter/releases/latest/download/kube-linter-linux-amd64.tar.gz | tar -xz
+          sudo mv kube-linter /usr/local/bin/
+
+      # 4. Helm Templates Render Et
       - name: Render Helm Templates
         run: |
           cd helmchart
           helm template my-release . -f values.dev.yaml > rendered.yaml
 
-      # 4. KubeLinter Çalıştır
+      # 5. KubeLinter Çalıştır
       - name: Run KubeLinter
         run: kube-linter lint helmchart/rendered.yaml
