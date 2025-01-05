@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-sign-and-publish:
-    runs-on: ubuntu-latest
+    runs-on: k8s
     env:
       DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
       SERVICE_NAME: 'servicename'
