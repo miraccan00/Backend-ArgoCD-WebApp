@@ -1,4 +1,4 @@
-name: Kubernetes YAML Linting
+name: Helm Chart Validation
 
 on:
   push:
@@ -10,14 +10,24 @@ on:
 
 jobs:
   lint:
-    name: Run KubeLinter
     runs-on: k8s
 
     steps:
+      # 1. Kodu Kontrol Et
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # 2. Helm'i Kur
+      - name: Install Helm
+        run: |
+          curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+      # 3. Helm Templates Render Et
+      - name: Render Helm Templates
+        run: |
+          cd helmchart
+          helm template my-release . -f values.dev.yaml > rendered.yaml
+
+      # 4. KubeLinter Çalıştır
       - name: Run KubeLinter
-        uses: stackrox/kube-linter-action@v1
-        with:
-          directory: ./helmchart/templates # Doğru dizini belirtin
+        run: kube-linter lint helmchart/rendered.yaml
