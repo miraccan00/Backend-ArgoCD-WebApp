@@ -20,5 +20,4 @@ jobs:
       - name: Run KubeLinter
         uses: stackrox/kube-linter-action@v1
         with:
-          paths: |
-            ./helmchart/templates/*.yaml
+          directory: ./helmchart/templates # Doğru dizini belirtin
