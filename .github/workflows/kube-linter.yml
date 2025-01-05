@@ -25,7 +25,7 @@ jobs:
       # 3. KubeLinter'ı Kur
       - name: Install KubeLinter
         run: |
-          curl -sSL https://github.com/stackrox/kube-linter/releases/latest/download/kube-linter-linux-amd64.tar.gz | tar -xz
+          curl -sSL https://github.com/stackrox/kube-linter/releases/download/v0.7.1/kube-linter-linux-amd64.tar.gz | tar -xz
           sudo mv kube-linter /usr/local/bin/
 
       # 4. Helm Templates Render Et
