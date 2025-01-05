@@ -1,0 +1,24 @@
+name: Kubernetes YAML Linting
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  lint:
+    name: Run KubeLinter
+    runs-on: k8s
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Run KubeLinter
+        uses: stackrox/kube-linter-action@v1
+        with:
+          paths: |
+            ./helmchart/templates/*.yaml
