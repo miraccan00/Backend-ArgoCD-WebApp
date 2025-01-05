@@ -1,0 +1,16 @@
+name: Test Workflow
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  test:
+    runs-on: [self-hosted, k8s]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Print Hello
+        run: echo "Hello from organization-wide runner!"
