@@ -7,6 +7,3 @@ def home(request):
 
 def home2(request):
     return render(request,'home2/index.html')
-
-def home3(request):
-    return render(request,'home2/index.html')
