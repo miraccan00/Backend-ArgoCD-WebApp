@@ -10,7 +10,7 @@ on:
 
 jobs:
   lint:
-    runs-on: k8s
+    runs-on: k8s # "k8s" yerine geçerli bir runner kullanıyoruz
 
     steps:
       # 1. Kodu Kontrol Et
@@ -26,7 +26,8 @@ jobs:
       - name: Install KubeLinter
         run: |
           curl -sSL https://github.com/stackrox/kube-linter/releases/download/v0.7.1/kube-linter-linux_arm64.tar.gz | tar -xz
-          sudo mv kube-linter-linux_arm64 /usr/local/bin/
+          ls -l # Çıkarılan dosyaları kontrol ediyoruz
+          sudo mv kube-linter /usr/local/bin/ # Doğru dosya adını belirtiyoruz
 
       # 4. Helm Templates Render Et
       - name: Render Helm Templates
