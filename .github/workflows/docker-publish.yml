@@ -23,7 +23,20 @@ jobs:
     - name: Get Version from application-manifest.yaml
       id: get_version
       run: |
-        VERSION=$(yq eval '.service.version' application-manifest.yaml)
+        FILE_PATH="$GITHUB_WORKSPACE/application-manifest.yaml"
+        
+        if [ ! -f "$FILE_PATH" ]; then
+          echo "Error: application-manifest.yaml not found at $FILE_PATH"
+          exit 1
+        fi
+
+        VERSION=$(yq '.service.version' "$FILE_PATH")
+        
+        if [[ -z "$VERSION" ]]; then
+          echo "Error: Version not found in application-manifest.yaml"
+          exit 1
+        fi
+
         echo "Extracted Version: $VERSION"
         echo "VERSION=$VERSION" >> $GITHUB_ENV
 
