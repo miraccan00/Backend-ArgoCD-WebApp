@@ -3,7 +3,7 @@ on:
     branches:
       - master
     paths:
-      - 'servicename/**' # Sadece servicename dizinindeki değişikliklerde tetiklenir
+      - 'servicename/**' # only run on changes in the servicename directory
 
 jobs:
   build-sign-and-publish:

@@ -10,7 +10,7 @@ on:
 
 jobs:
   lint:
-    runs-on: k8s # "k8s" yerine geçerli bir runner kullanıyoruz
+    runs-on: ubuntu-latest # "k8s" yerine geçerli bir runner kullanıyoruz
 
     steps:
       # 1. Kodu Kontrol Et
