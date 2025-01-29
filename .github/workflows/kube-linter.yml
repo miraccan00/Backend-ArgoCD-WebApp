@@ -25,7 +25,7 @@ jobs:
       # 3. KubeLinter'ı Kur
       - name: Install KubeLinter
         run: |
-          curl -sSL https://github.com/stackrox/kube-linter/releases/download/v0.7.1/kube-linter-linux_arm64.tar.gz | tar -xz
+          curl -sSL https://github.com/stackrox/kube-linter/releases/download/v0.7.1/kube-linter-linux-amd64.tar.gz | tar -xz
           ls -l # Çıkarılan dosyaları kontrol ediyoruz
           sudo mv kube-linter /usr/local/bin/ # Doğru dosya adını belirtiyoruz
 
