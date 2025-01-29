@@ -6,6 +6,11 @@ on:
       - '**'  # All branches
       - '!develop'
       - '!master'
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened  # Trigger on PR open, sync, and reopen events
 
 jobs:
   create-pull-request:
