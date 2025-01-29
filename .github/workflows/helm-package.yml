@@ -4,11 +4,9 @@ on:
   push:
     branches:
       - master
-    paths:
-      - 'helmchart/**'  # Trigger only on changes inside the helmchart directory
 
 jobs:
-  package-and-push:
+  update-helm-repo:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,30 +19,34 @@ jobs:
         chmod 700 get_helm.sh
         ./get_helm.sh
 
+    - name: Install yq
+      run: |
+        sudo apt-get update -q
+        sudo apt-get install -y yq
+
     - name: Extract Version from Chart.yaml
       id: chart_version
       run: |
-        CHART_VERSION=$(yq eval '.version' helmchart/Chart.yaml)
-        echo "Chart Version: $CHART_VERSION"
-        echo "CHART_VERSION=$CHART_VERSION" >> $GITHUB_ENV
+        VERSION=$(yq '.version' helmchart/Chart.yaml)
+        echo "Extracted Version: $VERSION"
+        echo "VERSION=$VERSION" >> $GITHUB_ENV
 
     - name: Package Helm Chart
       run: |
-        cd helmchart
-        helm package . --destination . --version $CHART_VERSION
+        helm package helmchart --destination .
 
-    - name: Configure Git User
+    - name: Generate Helm Repo Index
       run: |
-        git config --global user.name "github-actions"
-        git config --global user.email "github-actions@github.com"
+        helm repo index . --url https://miraccan00.github.io/Backend-ArgoCD-WebApp/
 
-    - name: Push Helm Package to gh-pages Branch
+    - name: Push Helm Package and Index to gh-pages
       run: |
         git fetch origin gh-pages || git checkout --orphan gh-pages
         git checkout gh-pages
 
-        mv servicename-$CHART_VERSION.tgz helmchart/
-        git add helmchart/*.tgz
+        mv servicename-${{ env.VERSION }}.tgz helmchart/
+        mv index.yaml helmchart/
+        git add helmchart/*.tgz helmchart/index.yaml
 
-        git commit -m "Updated Helm chart to version $CHART_VERSION"
+        git commit -m "Updated Helm chart and index for version ${{ env.VERSION }}"
         git push origin gh-pages

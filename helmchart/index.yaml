@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  servicename:
+  - apiVersion: v2
+    appVersion: 0.0.1
+    created: "2025-01-30T00:30:45.408098+03:00"
+    description: A Helm chart for Kubernetes
+    digest: c7b5120fe79e02136d6186e9cb8a9de225e972851420c96a512864dc0f4979d9
+    name: servicename
+    type: application
+    urls:
+    - https://miraccan00.github.io/Backend-ArgoCD-WebApp/servicename-1.0.0.tgz
+    version: 1.0.0
+generated: "2025-01-30T00:30:45.40656+03:00"
