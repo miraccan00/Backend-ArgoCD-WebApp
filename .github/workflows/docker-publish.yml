@@ -2,8 +2,6 @@ on:
   push:
     branches:
       - master
-    # paths:
-    #   - 'servicename/**'
 
 jobs:
   build-sign-and-publish:
@@ -20,12 +18,24 @@ jobs:
         sudo apt-get update -q
         sudo apt-get install -y yq
 
-    - name: Generate Version Number
+    - name: Get Version from application-manifest.yaml
       id: get_version
       run: |
-        BUILD_NUMBER=${{ github.run_number }}
-        VERSION="1.0.${BUILD_NUMBER}"  # Example format: 1.0.1234
-        echo "Generated Version: $VERSION"
+        FILE_PATH="$GITHUB_WORKSPACE/application-manifest.yaml"
+        
+        if [ ! -f "$FILE_PATH" ]; then
+          echo "Error: application-manifest.yaml not found at $FILE_PATH"
+          exit 1
+        fi
+
+        VERSION=$(yq '.service.version' "$FILE_PATH")
+        
+        if [[ -z "$VERSION" ]]; then
+          echo "Error: Version not found in application-manifest.yaml"
+          exit 1
+        fi
+
+        echo "Extracted Version: $VERSION"
         echo "VERSION=$VERSION" >> $GITHUB_ENV
 
     - name: Login to Docker Hub
