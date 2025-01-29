@@ -1,0 +1,40 @@
+name: Helm Chart Validation
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest # "k8s" yerine geçerli bir runner kullanıyoruz
+
+    steps:
+      # 1. Kodu Kontrol Et
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 2. Helm'i Kur
+      - name: Install Helm
+        run: |
+          curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+      # 3. KubeLinter'ı Kur
+      - name: Install KubeLinter
+        run: |
+          curl -sSL https://github.com/stackrox/kube-linter/releases/download/v0.7.1/kube-linter-linux-amd64.tar.gz | tar -xz
+          ls -l # Çıkarılan dosyaları kontrol ediyoruz
+          sudo mv kube-linter /usr/local/bin/ # Doğru dosya adını belirtiyoruz
+
+      # 4. Helm Templates Render Et
+      - name: Render Helm Templates
+        run: |
+          cd helmchart
+          helm template my-release . -f values.dev.yaml > rendered.yaml
+
+      # 5. KubeLinter Çalıştır
+      - name: Run KubeLinter
+        run: kube-linter lint helmchart/rendered.yaml

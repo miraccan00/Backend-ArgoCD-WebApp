@@ -2,6 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ include "djangoapp.fullname" . }}
+  namespace: {{ .Values.namespace }}
   labels:
     {{- include "djangoapp.labels" . | nindent 4 }}
 spec:

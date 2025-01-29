@@ -5,6 +5,7 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
   targetMemoryUtilizationPercentage: 80
 
+namespace: mynamespace
 fullnameOverride: 'mybackendapp'
 db:
   name: dGVzdAo=
@@ -15,7 +16,7 @@ db:
 image:
   pullPolicy: IfNotPresent
   repository: miraccan/servicename
-  tag: 1.0.7
+  tag: 1.0.0
 
 nameOverride: 'mybackendapp'
 replicaCount: 1

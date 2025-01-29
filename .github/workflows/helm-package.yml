@@ -1,0 +1,50 @@
+name: Helm Package and Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'helmchart/**'  # Trigger only on changes inside the helmchart directory
+
+jobs:
+  package-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Install Helm
+      run: |
+        curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+        chmod 700 get_helm.sh
+        ./get_helm.sh
+
+    - name: Extract Version from Chart.yaml
+      id: chart_version
+      run: |
+        CHART_VERSION=$(yq eval '.version' helmchart/Chart.yaml)
+        echo "Chart Version: $CHART_VERSION"
+        echo "CHART_VERSION=$CHART_VERSION" >> $GITHUB_ENV
+
+    - name: Package Helm Chart
+      run: |
+        cd helmchart
+        helm package . --destination . --version $CHART_VERSION
+
+    - name: Configure Git User
+      run: |
+        git config --global user.name "github-actions"
+        git config --global user.email "github-actions@github.com"
+
+    - name: Push Helm Package to gh-pages Branch
+      run: |
+        git fetch origin gh-pages || git checkout --orphan gh-pages
+        git checkout gh-pages
+
+        mv servicename-$CHART_VERSION.tgz helmchart/
+        git add helmchart/*.tgz
+
+        git commit -m "Updated Helm chart to version $CHART_VERSION"
+        git push origin gh-pages

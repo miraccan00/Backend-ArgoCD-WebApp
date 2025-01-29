@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "djangoapp.name" . }}-deployment
+  namespace: {{ .Values.namespace }}
   annotations:
     checksum/config: "{{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}"
 spec:

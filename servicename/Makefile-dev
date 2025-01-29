@@ -1,0 +1,34 @@
+
+# Create a virtual environment and install dependencies
+create_venv:
+ifeq ($(OS),Windows_NT)
+	python -m venv venv
+	./venv/Scripts/activate && pip install -r requirements.txt
+else
+	python3 -m venv venv
+	. venv/bin/activate && pip install -r requirements.txt
+endif
+
+# Run the development server
+run:
+ifeq ($(OS),Windows_NT)
+	./venv/Scripts/activate && python manage.py runserver
+else
+	. venv/bin/activate && python manage.py runserver
+endif
+
+# Run the tests
+test:
+ifeq ($(OS),Windows_NT)
+	./venv/Scripts/activate && python manage.py test
+else
+	. venv/bin/activate && python manage.py test
+
+
+# Run the code inside a Docker container
+build:
+	docker build -t servicename:latest .
+
+
+
+
