@@ -9,7 +9,7 @@ jobs:
   build-sign-and-publish:
     runs-on: ubuntu-latest
     env:
-      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_USERNAME: 'miraccan'
       SERVICE_NAME: 'servicename'
     steps:
     - name: Checkout Repository
