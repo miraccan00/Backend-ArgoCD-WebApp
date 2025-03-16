@@ -1,51 +1,72 @@
-name: Build, Sign and Push Docker Image
-
 on:
   push:
     branches:
       - master
-  release:
-    types:
-      - published
 
 jobs:
-
-  build-sign-push:
-    name: Build, Sign and Push Docker Image
+  build-sign-and-publish:
     runs-on: ubuntu-latest
     env:
-      DOCKERHUB_USERNAME: miraccan
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
       SERVICE_NAME: 'servicename'
-      
+
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      
-      - name: Login to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+    - name: Checkout Repository
+      uses: actions/checkout@v4
 
-      - name: Build Docker Image
-        run: |
-          docker build -t ${{ env.DOCKERHUB_USERNAME }}/${{ env.SERVICE_NAME }}:${{ env.VERSION }} ./${{ env.SERVICE_NAME }}
+    - name: Install yq
+      run: |
+        sudo apt-get update -q
+        sudo apt-get install -y yq
 
-      - name: Install Cosign
-        run: |
-          curl -LO https://github.com/sigstore/cosign/releases/latest/download/cosign-linux-amd64
-          chmod +x cosign-linux-amd64
-          sudo mv cosign-linux-amd64 /usr/local/bin/cosign
+    - name: Get Version from application-manifest.yaml
+      id: get_version
+      run: |
+        FILE_PATH="$GITHUB_WORKSPACE/application-manifest.yaml"
+        
+        if [ ! -f "$FILE_PATH" ]; then
+          echo "Error: application-manifest.yaml not found at $FILE_PATH"
+          exit 1
+        fi
 
-      - name: Sign Docker image with Cosign
-        env:
-          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
-        run: |
-          cosign sign --yes --key env://COSIGN_PASSWORD $IMAGE_NAME
+        VERSION=$(yq '.service.version' "$FILE_PATH")
+        
+        if [[ -z "$VERSION" ]]; then
+          echo "Error: Version not found in application-manifest.yaml"
+          exit 1
+        fi
 
-      - name: Verify Signature (Optional)
-        run: |
-          cosign verify --key env://COSIGN_PASSWORD $IMAGE_NAME
-      - name: Push Signed Docker Image
-        run: |
-          docker push ${{ env.DOCKERHUB_USERNAME }}/${{ env.SERVICE_NAME }}:${{ env.VERSION }}
+        echo "Extracted Version: $VERSION"
+        echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+    - name: Build Docker Image
+      run: |
+        docker build -t ${{ env.DOCKERHUB_USERNAME }}/${{ env.SERVICE_NAME }}:${{ env.VERSION }} ./${{ env.SERVICE_NAME }}
+
+    - name: Push Docker Image
+      run: |
+        docker push ${{ env.DOCKERHUB_USERNAME }}/${{ env.SERVICE_NAME }}:${{ env.VERSION }}
+
+    - name: Install Cosign
+      run: |
+        curl -LO https://github.com/sigstore/cosign/releases/latest/download/cosign-linux-amd64
+        chmod +x cosign-linux-amd64
+        sudo mv cosign-linux-amd64 /usr/local/bin/cosign
+
+    - name: Sign Docker Image with Cosign
+      env:
+        COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+      run: |
+        cosign sign --yes --key env://COSIGN_PASSWORD \
+        ${{ env.DOCKERHUB_USERNAME }}/${{ env.SERVICE_NAME }}:${{ env.VERSION }}
+
+    - name: Verify Signature (Optional)
+      run: |
+        cosign verify --key env://COSIGN_PASSWORD \
+        ${{ env.DOCKERHUB_USERNAME }}/${{ env.SERVICE_NAME }}:${{ env.VERSION }}
